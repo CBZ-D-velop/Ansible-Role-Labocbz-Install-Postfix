@@ -4,12 +4,12 @@
   ansible.builtin.package:
     update_cache: true
     name:
-      - postfix
-      - mailutils
-      - libsasl2-modules
-      - libsasl2-modules-sql
-      - colorized-logs
-      - kbtin
+      - "postfix"
+      - "mailutils"
+      - "libsasl2-modules"
+      - "libsasl2-modules-sql"
+      - "colorized-logs"
+      - "kbtin"
 
 - name: "Configure Postfix"
   notify: "Restart Postfix"
@@ -20,7 +20,7 @@
         dest: "/etc/mailname"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode: "0600"
 
     - name: "Configure /etc/postfix/main.cf"
       ansible.builtin.template:
@@ -28,7 +28,7 @@
         dest: "/etc/postfix/main.cf"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode: "0600"
 
     - name: "Configure /etc/aliases"
       ansible.builtin.template:
@@ -36,7 +36,7 @@
         dest: "/etc/postfix/aliases.cf"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode: "0600"
 
     - name: "Running postalias"
       register: output
@@ -61,7 +61,7 @@
         dest: "/etc/postfix/sasl_client"
         owner: "root"
         group: "root"
-        mode: 0600
+        mode: "0600"
 
     - name: "Loading new sasl_client"
       register: output
