@@ -21,6 +21,14 @@
 
 An Ansible role to install and configure Postfix on your host.
 
+The Ansible role installs and configures Postfix, an email server, on a target system. It provides the ability to customize email aliases and also allows setting up a "mail sender" to act as an intermediary for sending emails.
+
+With this role, you can easily define email aliases for specific recipients, such as "root," "hostmaster," "postmaster," "webmaster," and "www," each associated with corresponding email addresses.
+
+Additionally, the role allows customization of the ESMTP (Extended Simple Mail Transfer Protocol) banner of the email server, which is displayed during communications with remote email clients.
+
+In summary, the Postfix role simplifies the installation and configuration of a robust email server by offering easy customization of email aliases and the option to set up Postfix as a "mail sender" intermediary for sending emails. It provides a reliable solution for managing email communication within your organization.
+
 ## Folder structure
 
 By default Ansible will look in each directory within a role for a main.yml file for relevant content (also man.yml and main):
