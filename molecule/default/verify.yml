@@ -1,0 +1,39 @@
+---
+# Don't forget to keep this file updated
+# molecule/<scenario>/verify.yml
+- name: "Verify"
+  hosts: "all"
+  gather_facts: false
+  tasks:
+
+    - name: "Get Postfix service current state"
+      register: postfix_service_status
+      failed_when: not postfix_service_status.status.ActiveState == 'active'
+      ansible.builtin.systemd:
+        name: "postfix"
+
+    - name: "Check Postfix files"
+      loop:
+        - "/etc/mailname"
+        - "/etc/postfix/main.cf"
+        - "/etc/postfix/aliases.cf"
+      loop_control:
+        loop_var: files_path
+      register: file_check
+      failed_when: not file_check.stat.exists
+      ansible.builtin.stat:
+        path: "{{ files_path }}"
+
+    - name: "Check Postfix relay email sender file"
+      when: inv_postfix_email_sender
+      register: file_check
+      failed_when: not file_check.stat.exists
+      ansible.builtin.stat:
+        path: "/etc/postfix/sasl_client"
+
+    - name: "Check Postfix configuration"
+      register: output
+      changed_when: output.rc != 0
+      ansible.builtin.command:
+        cmd: "postfix check"
+        chdir: "/"

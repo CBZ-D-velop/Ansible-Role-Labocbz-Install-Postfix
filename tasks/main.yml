@@ -1,0 +1,79 @@
+---
+- name: "Install packages"
+  notify: "Start and enable Postfix"
+  ansible.builtin.package:
+    update_cache: true
+    name:
+      - postfix
+      - mailutils
+      - libsasl2-modules
+      - libsasl2-modules-sql
+      - colorized-logs
+      - kbtin
+
+- name: "Configure Postfix"
+  notify: "Restart Postfix"
+  block:
+    - name: "Configure /etc/mailname"
+      ansible.builtin.template:
+        src: "templates/mailname.j2"
+        dest: "/etc/mailname"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    - name: "Configure /etc/postfix/main.cf"
+      ansible.builtin.template:
+        src: "templates/main.cf.j2"
+        dest: "/etc/postfix/main.cf"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    - name: "Configure /etc/aliases"
+      ansible.builtin.template:
+        src: "templates/aliases.j2"
+        dest: "/etc/postfix/aliases.cf"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    - name: "Running postalias"
+      register: output
+      changed_when: output.rc != 0
+      ansible.builtin.command:
+        cmd: "postalias /etc/aliases"
+        chdir: /etc/postfix
+
+    - name: "Running newaliases"
+      register: output
+      changed_when: output.rc != 0
+      ansible.builtin.command:
+        cmd: "newaliases"
+        chdir: "/etc/postfix"
+
+- name: "Configure Postfix to use an email relay"
+  when: postfix_email_sender
+  block:
+    - name: "Configure /etc/postfix/sasl_client"
+      ansible.builtin.template:
+        src: "templates/sasl_client.j2"
+        dest: "/etc/postfix/sasl_client"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    - name: "Loading new sasl_client"
+      register: output
+      changed_when: output.rc != 0
+      ansible.builtin.command:
+        cmd: "postmap sasl_client"
+        chdir: "/etc/postfix"
+
+- name: "Check Postfix configuration"
+  notify: "Restart Postfix"
+  register: output
+  changed_when: output.rc != 0
+  ansible.builtin.command:
+    cmd: "postfix check"
+    chdir: "/"

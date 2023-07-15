@@ -1,0 +1,18 @@
+---
+inv_postfix_email_sender: true
+inv_postfix_email_sender_address: "in-v3.my.provider.com"
+inv_postfix_email_sender_api_key: "MY_API_KEY_TO_SEND_EMAILS"
+
+inv_postfix_aliases_addresses:
+  - alias: "root"
+    address: "my.root.address@domain.tld"
+  - alias: "hostmaster"
+    address: "my.hostmaster.address@domain.tld"
+  - alias: "postmaster"
+    address: "my.postmaster.address@domain.tld"
+  - alias: "webmaster"
+    address: "my.webmaster.address@domain.tld"
+  - alias: "www"
+    address: "my.www.address@domain.tld"
+
+inv_postfix_esmtp_banner: "ESMTP my Compagny"

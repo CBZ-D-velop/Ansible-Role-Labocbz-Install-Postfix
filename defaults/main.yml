@@ -1,0 +1,22 @@
+---
+postfix_email_sender: true
+postfix_email_sender_address: "in-v3.your.provider.com"
+postfix_email_sender_port: 587
+postfix_email_sender_api_key: "YOUR_API_KEY_TO_SEND_EMAILS"
+postfix_email_relayhost: "[{{ postfix_email_sender_address }}]:{{ postfix_email_sender_port }}"
+
+postfix_aliases_addresses:
+  - alias: "root"
+    address: "your.root.address@domain.tld"
+  - alias: "hostmaster"
+    address: "your.hostmaster.address@domain.tld"
+  - alias: "postmaster"
+    address: "your.postmaster.address@domain.tld"
+  - alias: "webmaster"
+    address: "your.webmaster.address@domain.tld"
+  - alias: "www"
+    address: "your.www.address@domain.tld"
+
+postfix_esmtp_banner: "ESMTP Your Compagny"
+postfix_mydestination: ""
+postfix_mailname: "{{ ansible_fqdn }}"

@@ -1,0 +1,9 @@
+##############################
+#                            #
+# Ansible / Tower managed on #
+#                            #
+##############################
+
+{% for alias_addresse in postfix_aliases_addresses %}
+{{ alias_addresse.alias }}:{{ alias_addresse.address }}
+{% endfor %}
