@@ -2,7 +2,7 @@
 - name: "Install packages"
   notify: "Start and enable Postfix"
   ansible.builtin.package:
-    update_cache: true
+    update_cache: false
     name:
       - "postfix"
       - "mailutils"
