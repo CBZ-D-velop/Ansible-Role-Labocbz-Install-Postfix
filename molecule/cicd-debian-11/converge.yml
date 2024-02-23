@@ -1,22 +1,16 @@
 ---
 - name: "Converge"
-  hosts: "all"
+  hosts: "cicd-debian-11"
   tasks:
-    # replace these tasks with whatever you find suitable to test
-    - name: "Copy something to test use of synchronize module"
-      ansible.builtin.copy:
-        src: "/etc/hosts"
-        dest: "/tmp/hosts-from-controller"
-        mode: 0700
 
     - name: "Include labocbz.install_postfix"
       tags:
         - "labocbz.install_postfix"
       vars:
-        postfix_email_sender: "{{ inv_postfix_email_sender }}"
-        postfix_email_sender_address: "{{ inv_postfix_email_sender_address }}"
-        postfix_email_sender_api_key: "{{ inv_postfix_email_sender_api_key }}"
-        postfix_aliases_addresses: "{{ inv_postfix_aliases_addresses }}"
-        postfix_esmtp_banner: "{{ inv_postfix_esmtp_banner }}"
+        install_postfix__email_sender: "{{ inv_install_postfix__email_sender }}"
+        install_postfix__email_sender_address: "{{ inv_install_postfix__email_sender_address }}"
+        install_postfix__email_sender_api_key: "{{ inv_install_postfix__email_sender_api_key }}"
+        install_postfix__aliases_addresses: "{{ inv_install_postfix__aliases_addresses }}"
+        install_postfix__esmtp_banner: "{{ inv_install_postfix__esmtp_banner }}"
       ansible.builtin.include_role:
         name: "labocbz.install_postfix"

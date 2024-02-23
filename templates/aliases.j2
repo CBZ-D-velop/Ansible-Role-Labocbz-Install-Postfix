@@ -4,6 +4,6 @@
 #                            #
 ##############################
 
-{% for alias_addresse in postfix_aliases_addresses %}
+{% for alias_addresse in install_postfix__aliases_addresses %}
 {{ alias_addresse.alias }}:{{ alias_addresse.address }}
 {% endfor %}

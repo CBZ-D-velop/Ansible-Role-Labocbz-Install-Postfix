@@ -2,13 +2,13 @@
 # Don't forget to keep this file updated
 # molecule/<scenario>/verify.yml
 - name: "Verify"
-  hosts: "all"
+  hosts: "cicd-debian-11"
   gather_facts: false
   tasks:
 
     - name: "Get Postfix service current state"
-      register: postfix_service_status
-      failed_when: not postfix_service_status.status.ActiveState == 'active'
+      register: install_postfix__service_status
+      failed_when: not install_postfix__service_status.status.ActiveState == 'active'
       ansible.builtin.systemd:
         name: "postfix"
 
@@ -25,7 +25,7 @@
         path: "{{ files_path }}"
 
     - name: "Check Postfix relay email sender file"
-      when: inv_postfix_email_sender
+      when: inv_install_postfix__email_sender
       register: file_check
       failed_when: not file_check.stat.exists
       ansible.builtin.stat:
