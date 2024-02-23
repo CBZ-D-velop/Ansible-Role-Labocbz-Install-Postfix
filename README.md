@@ -112,13 +112,13 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-postfix_email_sender: true
-postfix_email_sender_address: "in-v3.your.provider.com"
-postfix_email_sender_port: 587
-postfix_email_sender_api_key: "YOUR_API_KEY_TO_SEND_EMAILS"
-postfix_email_relayhost: "[{{ postfix_email_sender_address }}]:{{ postfix_email_sender_port }}"
+install_postfix__email_sender: true
+install_postfix__email_sender_address: "in-v3.your.provider.com"
+install_postfix__email_sender_port: 587
+install_postfix__email_sender_api_key: "YOUR_API_KEY_TO_SEND_EMAILS"
+install_postfix__email_relayhost: "[{{ install_postfix__email_sender_address }}]:{{ install_postfix__email_sender_port }}"
 
-postfix_aliases_addresses:
+install_postfix__aliases_addresses:
   - alias: "root"
     address: "your.root.address@domain.tld"
   - alias: "hostmaster"
@@ -130,9 +130,9 @@ postfix_aliases_addresses:
   - alias: "www"
     address: "your.www.address@domain.tld"
 
-postfix_esmtp_banner: "ESMTP Your Compagny"
-postfix_mydestination: ""
-postfix_mailname: "{{ ansible_fqdn }}"
+install_postfix__esmtp_banner: "ESMTP Your Compagny"
+install_postfix__mydestination: ""
+install_postfix__mailname: "{{ ansible_fqdn }}"
 
 ```
 
@@ -145,11 +145,11 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_postfix_email_sender: true
-inv_postfix_email_sender_address: "in-v3.my.provider.com"
-inv_postfix_email_sender_api_key: "MY_API_KEY_TO_SEND_EMAILS"
+inv_install_postfix__email_sender: true
+inv_install_postfix__email_sender_address: "in-v3.my.provider.com"
+inv_install_postfix__email_sender_api_key: "MY_API_KEY_TO_SEND_EMAILS"
 
-inv_postfix_aliases_addresses:
+inv_install_postfix__aliases_addresses:
   - alias: "root"
     address: "my.root.address@domain.tld"
   - alias: "hostmaster"
@@ -161,7 +161,7 @@ inv_postfix_aliases_addresses:
   - alias: "www"
     address: "my.www.address@domain.tld"
 
-inv_postfix_esmtp_banner: "ESMTP my Compagny"
+inv_install_postfix__esmtp_banner: "ESMTP my Compagny"
 
 ```
 
@@ -177,15 +177,15 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
 
 ```YAML
 - name: "Include labocbz.install_postfix"
-    tags:
+  tags:
     - "labocbz.install_postfix"
-    vars:
-    postfix_email_sender: "{{ inv_postfix_email_sender }}"
-    postfix_email_sender_address: "{{ inv_postfix_email_sender_address }}"
-    postfix_email_sender_api_key: "{{ inv_postfix_email_sender_api_key }}"
-    postfix_aliases_addresses: "{{ inv_postfix_aliases_addresses }}"
-    postfix_esmtp_banner: "{{ inv_postfix_esmtp_banner }}"
-    ansible.builtin.include_role:
+  vars:
+    install_postfix__email_sender: "{{ inv_install_postfix__email_sender }}"
+    install_postfix__email_sender_address: "{{ inv_install_postfix__email_sender_address }}"
+    install_postfix__email_sender_api_key: "{{ inv_install_postfix__email_sender_api_key }}"
+    install_postfix__aliases_addresses: "{{ inv_install_postfix__aliases_addresses }}"
+    install_postfix__esmtp_banner: "{{ inv_install_postfix__esmtp_banner }}"
+  ansible.builtin.include_role:
     name: "labocbz.install_postfix"
 ```
 
@@ -203,6 +203,15 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use remote Docker image by Lord Robin Crombez
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
+
+### 2024-02-22: New CICD and fixes
+
+* Added support for Ubuntu 22
+* Added support for Debian 11/22
+* Edited vars for linting (role name and __)
+* Fix idempotency
+* New CI, need work on tag and releases
+* CI use now Sonarqube
 
 ## Authors
 

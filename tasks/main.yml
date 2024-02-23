@@ -53,7 +53,7 @@
         chdir: "/etc/postfix"
 
 - name: "Configure Postfix to use an email relay"
-  when: postfix_email_sender
+  when: install_postfix__email_sender
   block:
     - name: "Configure /etc/postfix/sasl_client"
       ansible.builtin.template:
