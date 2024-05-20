@@ -1,6 +1,10 @@
 ---
 - name: "Install packages"
   notify: "Start and enable Postfix"
+  retries: 3
+  delay: 10
+  until: output is success
+  register: output
   ansible.builtin.package:
     update_cache: true
     name:
